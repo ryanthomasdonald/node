@@ -53,9 +53,7 @@ app.get("/albums/:id", (req, res) => {
     let id = req.params.id;
     res.send(`
         ${nav}
-
         <h1>${albums.albums[id].name}</h1>
-
         <img src=${albums.albums[id].imgURL}>
     `)
 })
