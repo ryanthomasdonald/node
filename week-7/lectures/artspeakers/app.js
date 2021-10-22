@@ -11,6 +11,7 @@ app.set("view engine", "ejs");
 // routes
 app.use(require("./routes/index"))
 app.use(require("./routes/speakers"))
+app.use(require("./routes/feedback"))
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}.`);

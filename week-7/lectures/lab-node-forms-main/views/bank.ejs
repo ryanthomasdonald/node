@@ -10,7 +10,7 @@
 
 <body>
 
-    <form id="bankingForm" >
+    <form id="bankingForm" action="" method="">
         <input name="amount" id="amount" type="text">
 
         <select name="transType" id="transType">
@@ -18,10 +18,75 @@
             <option value="savings/deposit">Savings</option>
         </select>
 
-        <button type="submit">Submit</button>
-    </form>
+        <button type="submit">Deposit</button>
 
+        <div id="checkingBalance">
+
+        </div>
+        <div id="savingsBalance">
+
+        </div>
+    </form>
+    <br>
+    <button type="submit" id="history">Transaction History</button>
+
+    <div id="transList"></div>
     
+    <script>
+        let checkingBalance = document.querySelector("#checkingBalance");
+        let savingsBalance = document.querySelector("#savingsBalance");
+        let amount = document.querySelector("#amount");
+        let transType = document.querySelector("#transType");
+        let form = document.querySelector("#bankingForm");
+        let histButton = document.querySelector("#history");
+        let transList = document.querySelector("#transList");
+
+        const setInitialBalances = async () => {
+            let cResult = await fetch("/checkingbalance");
+            let cBalance = await cResult.json();
+            checkingBalance.textContent = cBalance.checking;
+            let sResult = await fetch("/savingsbalance");
+            let sBalance = await sResult.json();
+            savingsBalance.textContent = sBalance.savings;
+        };
+
+        setInitialBalances()
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            let newTrans = {
+                amount: amount.value,
+                transType: transType.value
+            };
+
+            let result = await fetch("/depositchecking", {
+                method: "POST",                                                  // changes call from default of GET
+                headers: {"Content-type": "application/json; charset=UTF-8"},
+                body: JSON.stringify(newTrans)
+            });
+
+            let balance = await result.json();
+
+            checkingBalance.textContent = balance.checking;
+            savingsBalance.textContent = balance.savings;
+        });
+
+        histButton.addEventListener("submit", async (event) => {          // below doesn't work
+            event.preventDefault();
+            let result = await fetch("/transhist");
+            let tHist = await result.json();
+            transList.textContent = tHist.transactions
+        })
+
+        const setTH = async () => {
+            let result = await fetch("/transhist");
+            let tHist = await result.json();
+            transList.textContent = tHist.transactions
+        }
+
+        setTH()
+    </script>
 </body>
 
 </html>

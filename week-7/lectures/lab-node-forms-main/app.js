@@ -1,13 +1,16 @@
-
 const express = require('express');
 const app = express();
-
 const port = 3000;
+
+// allows scrape from header
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 
-//routes
+// routes
 app.use(require('./routes/index'));
 app.use(require('./routes/form'));
 app.use(require('./routes/contact'));
