@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virus</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Corona Virus Data</h1>
+
+    <% data.forEach(obj => { %>
+        <h2><%= obj.state %></h2>
+        <ul>
+            <li>Cases: <%= obj.positive %></li>
+            <li>Total: <%= obj.total %></li>
+        </ul>
+    <% }) %>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+</head>
+<body>
+    
+    <button id="add">+</button>
+
+    <div id="value"></div>
+
+    <button id="subtract">-</button><br>
+
+    <button id="reset">Reset</button>
+    <script>
+        let inc = document.querySelector("#add");
+        let dec = document.querySelector("#subtract");
+        let reset = document.querySelector("#reset");
+        let value = document.querySelector("#value");
+
+        inc.addEventListener("click", async () => {
+            let result = await fetch("/api/counter", {method: "post"});
+            let num = await result.json();
+            value.textContent = num.value;
+        });
+
+        dec.addEventListener("click", async () => {
+            let result = await fetch("/api/counter", {method: "put"});
+            let num = await result.json();
+            value.textContent = num.value;
+        });
+
+        reset.addEventListener("click", async () => {
+            let result = await fetch("/api/counter", {method: "delete"});
+            let num = await result.json();
+            value.textContent = num.value;
+        });
+
+        const valueForDiv = async () => {
+            let result = await fetch("/api/counter");
+            let num = await result.json();
+            value.textContent = num.value;
+        };
+
+        valueForDiv();
+
+        const greeting = async () => {
+            let result = await fetch("/api");
+            let data = await result.json();
+            console.log(data);
+        };
+
+        greeting();
+    </script>
+</body>
+</html>
